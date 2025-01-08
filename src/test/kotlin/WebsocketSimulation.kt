@@ -9,21 +9,6 @@ class WebsocketSimulation : Simulation() {
 
     private var senderId = 1
 
-    private val websocketScenario = scenario("WebSocket Performance Test")
-            .exec(
-                    ws("Connect WS").connect("/chat/gatling"),
-                    pause(1),
-                    repeat(2, "i").on(
-                            ws("Say Hello WS")
-                                    .sendText("Hello, I'm #{i} and this is message #{i}")
-                                    .await(60).on(
-                                            ws.checkTextMessage("checkName").check(regex(".*Hello.*"))
-                                    )
-                    ),
-                    pause(1),
-                    ws("Close WS").close()
-            )
-
     // 구독자 시나리오
     private val subscriberScenario = scenario("Chat Room Subscriber Test")
             .exec(
